@@ -1,0 +1,113 @@
+
+
+class WebTranslator : AppCompatActivity() {
+
+    companion object {
+
+        private val callbacks = SparseArray<WebCallback>()
+        private val webs = SparseArray<WeakReference<Activity>>()
+
+        fun start(activity: Activity, fromText: String, fromLanguage: Language, toLanguage: Language, callback: WebCallback) {
+            val callbackKey = callback.hashCode()
+            callbacks.put(callbackKey, callback)
+            val url = if (LanguageManager.isAutoDetect()) {
+                "https://www.bing.com/translator/?ref=TThis&text=$fromText&from=&to=${toLanguage.bingCode}"
+            } else {
+                "https://www.bing.com/translator/?ref=TThis&text=$fromText&from=${fromLanguage.bingCode}&to=${toLanguage.bingCode}"
+            }
+            Intent(activity, WebTranslator::class.java).apply {
+                putExtra("loadUrl", url)
+                putExtra("callbackKey", callbackKey)
+            }.let {
+                activity.startActivity(it)
+            }
+        }
+
+        fun cancel() {
+            webs.forEach { _, value ->
+                value.get()?.finish()
+            }
+            webs.clear()
+        }
+
+    }
+
+    private lateinit var binding: ActivityWebTranslatorBinding
+    private var findResultJob: Job? = null
+    private var callbackKey = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        window.apply {
+            setGravity(Gravity.START and Gravity.TOP)
+            attributes = attributes.apply {
+                x = 0
+                y = 0
+                width = 1
+                height = 1
+            }
+        }
+
+        binding = ActivityWebTranslatorBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        callbackKey = intent?.getIntExtra("callbackKey", 0) ?: 0
+        webs.put(callbackKey, WeakReference(this))
+        initWeb()
+        intent?.getStringExtra("loadUrl")?.let {
+            Log.d(TagKey.TAG_WEB_TRANSLATOR, "start load url: $it")
+            binding.webView.loadUrl(it)
+        }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun initWeb() {
+        binding.webView.settings.apply {
+            javaScriptEnabled = true
+        }
+        binding.webView.webViewClient = object : WebViewClient() {
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+
+                Log.d(TagKey.TAG_WEB_TRANSLATOR, "load page finish, start parse")
+                startParseResult()
+            }
+        }
+    }
+
+    private fun startParseResult() {
+        findResultJob = lifecycleScope.launch {
+            while (true) {
+                delay(1000L)
+                binding.webView.evaluateJavascript("javascript:document.getElementById('tta_output_ta').value") {
+                    if (it != "\" ...\"") {
+                        val result = it.replace("\"", "")
+                        Log.d(TagKey.TAG_WEB_TRANSLATOR, "parse end, result: $result")
+                        callbacks[callbackKey]?.invoke(result)
+                        findResultJob?.cancel()
+                        callbacks.remove(callbackKey)
+                        finish()
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+WebTranslator.start(activity, fromText, fromLanguage, toLanguage) {
+                                    if (callback.isActive) {
+                                        Log.d(TagKey.TAG_TRANSLATOR, "Web translate success, result: $it")
+                                        Analytics.onTranslateSuccessWeb(ceil((System.currentTimeMillis() - startTimeTs) / 1000f).toInt())
+                                        callback.resume(
+                                            Pair(
+                                                EventCode.TRANSLATE_SUCCESS,
+                                                TranslateResult(fromText, it, fromLanguage, toLanguage).apply {
+                                                    translatorType = TranslatorType.WEB
+                                                })
+                                        )
+                                        outerJob?.cancel()
+                                    }
+                                }
