@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "52955505384",
+    "project_id": "smart-trans-ab330",
+    "storage_bucket": "smart-trans-ab330.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52955505384:android:e2f3808ce1d5d78fac9f5d",
+        "android_client_info": {
+          "package_name": "com.translateapp.smart.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52955505384-vmst64ln241e3qif5q3jgb8efjsgjvuv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY_gv9hAGvttQiGAtu-IAF9K2TSlavY1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52955505384-vmst64ln241e3qif5q3jgb8efjsgjvuv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
