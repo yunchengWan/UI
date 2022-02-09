@@ -1,0 +1,6 @@
+gthost-US-ATL-SM5038MD-H24TRF-6-13   172.111.36.169   Atlanta
+gthost-US-LAX-SM5038MD-H24TRF-2-2    38.75.137.209    Los Angeles
+gthost-US-NYC-SM5038MD-H24TRF-8-17   38.91.100.239    New York
+端口：1876-1878
+密码：WudPh!PKi5Q.OxvlG
+加密协议：chacha20-ietf-poly1305
