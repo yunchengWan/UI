@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12px" height="12px" viewBox="0 0 12 12" version="1.1">
+  <title>arrow_2@2x</title>
+  <g id="最新" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="home-1" transform="translate(-174.000000, -551.000000)">
+      <g id="编组-4" transform="translate(0.000000, 530.000000)">
+        <g id="编组-3" transform="translate(96.000000, 16.000000)">
+          <g id="arrow_2" transform="translate(78.000000, 5.000000)">
+            <rect id="矩形" x="0" y="0" width="12" height="12"></rect>
+            <g id="编组-2" transform="translate(1.500000, 2.624569)" fill="#D8D8D8" stroke="#979797">
+              <rect id="矩形" x="0.5" y="3.37543097" width="8" height="1" rx="0.5"></rect>
+              <rect id="矩形" transform="translate(6.960287, 2.343046) rotate(-315.000000) translate(-6.960287, -2.343046) " x="4.89671975" y="2.09304557" width="4.12713364" height="1" rx="0.5"></rect>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
